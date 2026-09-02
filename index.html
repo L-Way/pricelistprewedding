@@ -2192,7 +2192,9 @@
         wedding: 'Wedding / Patuaekkon',
         mangayun: 'Mangayun / Aqiqah',
         margondang: 'Margondang',
-        prewedding: 'Prewedding'
+        prewedding: 'Prewedding',
+        wisuda: 'Wisuda',
+        undangan_digital: 'Undangan Digital'
       };
       return MAP[asal] || 'Prewedding';
     }
@@ -2218,6 +2220,27 @@
           '</div>';
       }).join('');
     }
+    /* Ambil daftar publish_targets satu baris ulasan dengan aman, apapun bentuk datanya
+       dari Supabase (array asli, string JSON hasil serialisasi, atau baris lama yang cuma
+       punya kolom "dipublikasikan"). PENTING: jangan filter pakai
+       ".eq('dipublikasikan', true)" di server — kolom "dipublikasikan" itu HANYA
+       mengikuti status target "wedding" di rekap job (Kelola Publikasi), jadi kalau
+       dipakai di sini, ulasan yang dicentang "Wedding" jadi salah muncul di halaman
+       Prewedding ini, sementara ulasan yang dicentang "Prewedding" saja malah tidak
+       muncul. Semua ulasan diambil dulu, baru disaring di sisi JavaScript dengan
+       mengecek apakah "prewedding" ada di publish_targets — sama seperti halaman
+       Isi Biodata. */
+    function getPublishTargetsSafe(u){
+      var t = u.publish_targets;
+      if(Array.isArray(t)) return t;
+      if(typeof t === 'string'){
+        try{
+          var parsed = JSON.parse(t);
+          if(Array.isArray(parsed)) return parsed;
+        }catch(e){ /* bukan JSON valid, abaikan */ }
+      }
+      return u.dipublikasikan ? ['wedding'] : [];
+    }
     function loadTestimoniList(){
       var wrap = document.getElementById('testimoniListWrap');
       if(!reviewSupabaseClient){
@@ -2227,7 +2250,6 @@
       reviewSupabaseClient
         .from(ULASAN_TABLE)
         .select('*')
-        .eq('dipublikasikan', true)
         .order('created_at', { ascending:false })
         .then(function(res){
           if(res && res.error){
@@ -2235,7 +2257,11 @@
             if(wrap) wrap.innerHTML = '<div class="testimoni-empty">Testimoni belum bisa dimuat saat ini.</div>';
             return;
           }
-          renderTestimoniList(res.data || []);
+          var semua = res.data || [];
+          var untukPrewedding = semua.filter(function(u){
+            return getPublishTargetsSafe(u).indexOf('prewedding') !== -1;
+          });
+          renderTestimoniList(untukPrewedding);
         })
         .catch(function(err){
           console.error('Gagal memuat testimoni', err);
