@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimoni &mdash; Kaone Studio Prewedding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --cream:#F7EFE4;
+    --cream-deep:#F0E3D1;
+    --paper:#FDF9F2;
+    --ink:#3E2C22;
+    --maroon:#7C2A38;
+    --maroon-deep:#5E1F2A;
+    --terracotta:#C17A4E;
+    --muted:#8C7563;
+    --line:rgba(124,42,56,0.22);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;overflow-x:hidden;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    min-height:100vh;
+  }
+  .content-pad{
+    background:radial-gradient(ellipse at top, var(--cream-deep) 0%, var(--cream) 55%);
+    padding:64px 16px 90px;
+  }
+  .sheet{max-width:760px;margin:0 auto;position:relative;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:78px 20px 56px;
+    background:
+      radial-gradient(circle at 14% 20%, rgba(124,42,56,0.20), transparent 45%),
+      radial-gradient(circle at 86% 15%, rgba(193,122,78,0.16), transparent 55%),
+      linear-gradient(135deg, #F8F0E4 0%, #F1E2CD 55%, #EAD6B9 100%);
+    text-align:center;
+  }
+  .hero-inner{max-width:640px;margin:0 auto;position:relative;}
+  .eyebrow-line{
+    display:flex;align-items:center;justify-content:center;
+    flex-wrap:wrap;gap:8px 10px;margin:0 0 20px;
+  }
+  .eyebrow-line .dot{width:6px;height:6px;border-radius:50%;background:var(--terracotta);flex-shrink:0;}
+  .eyebrow-thin{
+    font-family:'Work Sans',sans-serif;font-weight:500;font-size:11.5px;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--maroon-deep);opacity:0.85;
+  }
+  .eyebrow-bold{
+    font-family:'Fraunces',serif;font-style:italic;font-size:12px;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--maroon-deep);
+  }
+  .hero-title{
+    font-family:'Fraunces',serif;font-weight:500;
+    font-size:clamp(38px,8vw,60px);line-height:1.08;margin:0;color:var(--maroon-deep);
+  }
+  .hero-title em{font-style:italic;font-weight:400;color:var(--ink);}
+  .hero-sub{
+    font-family:'Work Sans',sans-serif;font-size:14.5px;line-height:1.75;
+    color:var(--muted);max-width:480px;margin:20px auto 0;
+  }
+  .back-link{
+    display:inline-flex;align-items:center;gap:9px;margin-top:28px;
+    font-family:'Work Sans',sans-serif;font-size:12.5px;font-weight:500;
+    letter-spacing:0.05em;color:#fff;text-decoration:none;
+    background:var(--maroon);
+    border:1px solid var(--maroon);
+    border-radius:999px;
+    padding:12px 26px 12px 20px;
+    box-shadow:0 12px 24px -10px rgba(94,31,42,0.55);
+    transition:background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .back-link:hover{
+    background:var(--maroon-deep);
+    border-color:var(--maroon-deep);
+    transform:translateY(-2px);
+    box-shadow:0 16px 28px -10px rgba(94,31,42,0.65);
+  }
+  .back-link:active{
+    transform:translateY(0) scale(0.96);
+    box-shadow:0 6px 14px -8px rgba(94,31,42,0.5);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .back-link svg{
+    width:13px;height:13px;flex-shrink:0;
+    transition:transform 0.2s ease;
+  }
+  .back-link:hover svg{transform:translateX(-3px);}
+
+  /* ---------- intro / section heads ---------- */
+  .intro-head{text-align:center;margin:8px 0 32px;}
+  .intro-head .eyebrow{
+    font-family:'Fraunces',serif;font-style:italic;font-size:13px;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin:0 0 14px;
+  }
+  .intro-head h2{
+    font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,5vw,30px);
+    color:var(--maroon-deep);margin:0;
+  }
+  .intro-head .desc{
+    font-family:'Work Sans',sans-serif;font-size:14px;line-height:1.75;
+    color:var(--muted);max-width:520px;margin:16px auto 0;
+  }
+
+  /* ---------- frame ---------- */
+  .frame{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:40px 32px 46px;
+    box-shadow:0 30px 60px -30px rgba(94,31,42,0.25);
+    position:relative;
+    overflow:hidden;
+  }
+  .frame::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:6px;
+    background:linear-gradient(90deg, var(--maroon) 0%, var(--terracotta) 50%, var(--maroon) 100%);
+  }
+  @media(max-width:680px){
+    .frame{padding-left:18px;padding-right:18px;}
+  }
+
+  .rule{display:flex;align-items:center;gap:14px;margin:34px 0 40px;}
+  .rule .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent);}
+  .rule .diamond{width:7px;height:7px;background:var(--terracotta);transform:rotate(45deg);}
+
+  /* ---------- form ---------- */
+  .form-field{margin-bottom:16px;}
+  .form-field label{
+    display:block;font-family:'Work Sans',sans-serif;font-weight:500;font-size:12.5px;
+    letter-spacing:0.02em;color:var(--ink);margin-bottom:6px;
+  }
+  .form-field .req{color:var(--maroon);}
+  .form-field input,.form-field textarea{
+    width:100%;font-family:'Work Sans',sans-serif;font-size:14px;color:var(--ink);
+    background:var(--cream);border:1px solid var(--line);border-radius:3px;padding:10px 12px;
+  }
+  .form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--maroon);}
+  .form-field textarea{resize:vertical;min-height:64px;}
+  .star-rating{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 4px;}
+  .star-rating .star-btn{
+    background:none;border:none;padding:2px;cursor:pointer;font-size:34px;line-height:1;
+    color:#E4D4C6;transition:transform 0.15s ease, color 0.15s ease;
+  }
+  .star-rating .star-btn:hover{transform:translateY(-2px) scale(1.08);}
+  .star-rating .star-btn.on{color:var(--terracotta);}
+  .star-rating-label{
+    text-align:center;font-family:'Work Sans',sans-serif;font-size:11.5px;
+    letter-spacing:0.03em;color:var(--muted);margin:0 0 18px;min-height:14px;
+  }
+  .form-submit{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    padding:13px 18px;background:var(--maroon);color:#fff;border:none;
+    font-family:'Work Sans',sans-serif;font-weight:500;font-size:14px;letter-spacing:0.04em;
+    border-radius:3px;cursor:pointer;margin-top:6px;
+    transition:background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .form-submit svg{width:15px;height:15px;flex-shrink:0;}
+  .form-submit:hover{
+    background:var(--maroon-deep);transform:translateY(-2px);
+    box-shadow:0 10px 20px -10px rgba(94,31,42,0.5);
+  }
+  .form-submit:disabled{opacity:0.7;cursor:default;transform:none;box-shadow:none;}
+  .form-note{font-size:11px;color:var(--muted);text-align:center;margin:10px 0 0;}
+  .form-note.status-ok{color:#3C7A5E;font-weight:500;}
+  .form-note.status-error{color:#B23B4E;font-weight:500;}
+  .review-success{text-align:center;padding:20px 10px 6px;}
+  .review-success .rs-icon{
+    width:56px;height:56px;border-radius:50%;background:#EAF3EE;color:#3C7A5E;
+    display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px;
+  }
+  .review-success h3{
+    font-family:'Fraunces',serif;font-weight:500;font-size:24px;color:var(--maroon-deep);margin:0 0 8px;
+  }
+  .review-success p{
+    font-family:'Work Sans',sans-serif;font-size:13.5px;color:var(--muted);
+    line-height:1.7;margin:0 0 18px;
+  }
+  .review-success .again-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:11px 22px;background:var(--paper);color:var(--maroon-deep);
+    border:1.5px solid var(--maroon-deep);font-family:'Work Sans',sans-serif;
+    font-weight:500;font-size:13.5px;border-radius:3px;cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .review-success .again-btn:hover{background:var(--maroon-deep);color:#fff;}
+
+  /* ---------- testimoni list ---------- */
+  .testimoni-list{display:flex;flex-direction:column;gap:16px;margin:0 0 34px;}
+  .testimoni-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:4px;
+    padding:22px 24px;box-shadow:0 14px 30px -22px rgba(94,31,42,0.3);
+  }
+  .testimoni-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .testimoni-name{font-family:'Fraunces',serif;font-size:15px;color:var(--ink);}
+  .testimoni-sub{
+    font-family:'Work Sans',sans-serif;font-size:10.5px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--maroon-deep);margin-top:2px;
+  }
+  .testimoni-stars{margin-top:4px;color:#e8d9c4;letter-spacing:2px;font-size:14px;}
+  .testimoni-stars .on{color:var(--terracotta);}
+  .testimoni-date{
+    font-family:'Work Sans',sans-serif;font-size:11px;color:var(--muted);
+    white-space:nowrap;padding-top:2px;
+  }
+  .testimoni-comment{
+    font-family:'Fraunces',serif;font-style:italic;font-size:15.5px;line-height:1.7;
+    color:var(--ink);margin-top:12px;white-space:pre-wrap;
+  }
+  .testimoni-empty,.testimoni-loading{
+    text-align:center;font-family:'Work Sans',sans-serif;font-size:13px;
+    color:var(--muted);padding:24px 10px;
+  }
+
+  /* ---------- footer ---------- */
+  .site-footer{
+    background:linear-gradient(160deg, #2C1B1F 0%, #1E1215 60%, #150C0E 100%);
+    padding:52px 20px 40px;
+  }
+  .site-footer-inner{max-width:760px;margin:0 auto;text-align:center;}
+  .site-footer .note{
+    font-family:'Fraunces',serif;font-style:italic;color:#C9AF9C;font-size:15px;margin:0 0 22px;
+  }
+  .contact{
+    font-family:'Fraunces',serif;letter-spacing:0.06em;font-size:16px;font-weight:600;
+    color:#E4B48B;
+  }
+  .contact span{
+    color:#C9AF9C;letter-spacing:0.02em;display:block;margin-top:10px;
+    font-family:'Work Sans',sans-serif;font-size:12.5px;
+  }
+  .contact span a{
+    color:#C9AF9C;text-decoration:none;border-bottom:1px solid rgba(228,180,139,0.3);
+    padding-bottom:1px;transition:color 0.15s ease, border-color 0.15s ease;
+  }
+  .contact span a:hover,.contact span a:focus-visible{color:#E4B48B;border-color:#E4B48B;}
+  .footer-divider{
+    height:1px;max-width:220px;margin:28px auto;
+    background:linear-gradient(90deg, transparent, rgba(228,180,139,0.4) 50%, transparent);
+  }
+  .copyright{font-family:'Work Sans',sans-serif;font-size:11.5px;letter-spacing:0.06em;color:#8A7468;margin:0;}
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow-line">
+        <span class="dot"></span>
+        <span class="eyebrow-thin">Kaone Studio</span>
+        <span class="eyebrow-bold">&middot; Prewedding</span>
+      </div>
+      <h1 class="hero-title">Testimoni <em>Klien Kami</em></h1>
+      <p class="hero-sub">Kumpulan kesan &amp; pesan dari klien yang telah menggunakan jasa prewedding Kaone Studio. Sudah pernah menggunakan jasa kami? Bagikan pengalaman Anda di bawah ini.</p>
+      <a class="back-link" href="https://prewedding.kaone.web.id/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Kembali ke Pricelist Prewedding</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="content-pad">
+    <div class="sheet">
+
+      <div class="intro-head">
+        <p class="eyebrow">Semua Testimoni</p>
+        <h2>Apa Kata Mereka</h2>
+        <p class="desc">Testimoni di bawah ini juga tampil otomatis di halaman pricelist prewedding kami.</p>
+      </div>
+
+      <div id="testimoniListWrap" class="testimoni-list">
+        <div class="testimoni-loading">Memuat testimoni...</div>
+      </div>
+
+      <div class="rule"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+
+      <div class="intro-head">
+        <p class="eyebrow">Beri Penilaian</p>
+        <h2>Saran &amp; Penilaian</h2>
+        <p class="desc">Saran dan penilaian Anda sangat berarti bagi kami untuk terus memberikan pelayanan terbaik.</p>
+      </div>
+
+      <div class="frame review-frame">
+        <div id="reviewFormWrap">
+          <div class="form-field">
+            <label for="reviewName">Nama Anda <span class="req">*</span></label>
+            <input type="text" id="reviewName" placeholder="Nama lengkap" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label>Penilaian Bintang <span class="req">*</span></label>
+            <div class="star-rating" id="reviewStars">
+              <button type="button" class="star-btn" data-star="1" aria-label="1 bintang">★</button>
+              <button type="button" class="star-btn" data-star="2" aria-label="2 bintang">★</button>
+              <button type="button" class="star-btn" data-star="3" aria-label="3 bintang">★</button>
+              <button type="button" class="star-btn" data-star="4" aria-label="4 bintang">★</button>
+              <button type="button" class="star-btn" data-star="5" aria-label="5 bintang">★</button>
+            </div>
+            <p class="star-rating-label" id="reviewStarsLabel">Ketuk bintang untuk memberi nilai</p>
+          </div>
+
+          <div class="form-field">
+            <label for="reviewComment">Saran, Kesan &amp; Pesan <span class="req">*</span></label>
+            <textarea id="reviewComment" rows="4" placeholder="Ceritakan pengalaman Anda menggunakan jasa Kaone Studio..." required></textarea>
+          </div>
+
+          <button type="button" class="form-submit" id="reviewSubmitBtn" onclick="handleSubmitReview()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            Kirim Penilaian
+          </button>
+          <p class="form-note" id="reviewStatus"></p>
+        </div>
+
+        <div id="reviewSuccessWrap" class="review-success" style="display:none;">
+          <div class="rs-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="26" height="26"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h3>Terima Kasih!</h3>
+          <p>Penilaian dan saran Anda sudah kami terima dengan baik. Semoga hari Anda menyenangkan!</p>
+          <button type="button" class="again-btn" onclick="resetReviewForm()">Kirim Ulasan Lain</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p class="note">Terima kasih sudah berbagi pengalaman Anda bersama kami</p>
+      <div class="contact">
+        Kaone Studio
+        <span>
+          <a href="https://wa.me/6285117071704" target="_blank" rel="noopener">WhatsApp +62 851 1707 1704</a>
+          &nbsp;&middot;&nbsp;
+          <a href="https://instagram.com/kaonestudio" target="_blank" rel="noopener">Instagram @kaonestudio</a>
+        </span>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="copyright">&copy; Kaone Studio 2026. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================================
+       TESTIMONI (halaman berdiri sendiri)
+       Terhubung ke tabel Supabase "kaone_motret_ulasan" yang sama
+       dengan yang dipakai file pricelist prewedding, sehingga
+       testimoni yang masuk lewat halaman ini otomatis tampil juga
+       di pricelist, dan sebaliknya.
+    ========================================================= */
+    var ULASAN_SUPABASE_URL = 'https://gyleppavsgbtrlgbyztv.supabase.co';
+    var ULASAN_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5bGVwcGF2c2didHJsZ2J5enR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3NjU0MDQsImV4cCI6MjEwMzM0MTQwNH0.0t7bMoTjgd-c48O37wo1QyGFsFnjrRiAkDzH8VMgw-Q';
+    var ULASAN_TABLE = 'kaone_motret_ulasan';
+
+    var reviewSupabaseClient = null;
+    if(window.supabase){
+      try{ reviewSupabaseClient = window.supabase.createClient(ULASAN_SUPABASE_URL, ULASAN_SUPABASE_ANON_KEY); }
+      catch(e){ console.error('Gagal inisialisasi Supabase (ulasan)', e); }
+    }
+
+    function fmtTestimoniDate(iso){
+      if(!iso) return '';
+      try{
+        return new Intl.DateTimeFormat('id-ID', {day:'numeric', month:'long', year:'numeric'}).format(new Date(iso));
+      }catch(e){ return ''; }
+    }
+    function testimoniStarsHtml(rating){
+      var r = Number(rating)||0;
+      var out = '';
+      for(var i=1;i<=5;i++){ out += '<span class="' + (i<=r?'on':'') + '">★</span>'; }
+      return out;
+    }
+    function escapeHtml(str){
+      return String(str || '').replace(/[&<>"']/g, function(ch){
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch];
+      });
+    }
+    function testimoniJenisAcaraLabel(u){
+      var asal = (u.asal_form || '').toLowerCase();
+      if(asal === 'biodata'){
+        return u.jenis_acara || 'Acara';
+      }
+      var MAP = {
+        wedding: 'Wedding / Patuaekkon',
+        mangayun: 'Mangayun / Aqiqah',
+        margondang: 'Margondang',
+        prewedding: 'Prewedding'
+      };
+      return MAP[asal] || 'Prewedding';
+    }
+    function renderTestimoniList(list){
+      var wrap = document.getElementById('testimoniListWrap');
+      if(!wrap) return;
+      if(!list || list.length===0){
+        wrap.innerHTML = '<div class="testimoni-empty">Belum ada testimoni yang ditampilkan. Jadilah yang pertama memberi penilaian!</div>';
+        return;
+      }
+      wrap.innerHTML = list.map(function(u){
+        return '' +
+          '<div class="testimoni-card">' +
+            '<div class="testimoni-card-top">' +
+              '<div>' +
+                '<div class="testimoni-name">' + escapeHtml(u.nama_klien || 'Klien') + '</div>' +
+                '<div class="testimoni-sub">' + escapeHtml(testimoniJenisAcaraLabel(u)) + '</div>' +
+                '<div class="testimoni-stars">' + testimoniStarsHtml(u.rating) + '</div>' +
+              '</div>' +
+              '<div class="testimoni-date">' + fmtTestimoniDate(u.created_at) + '</div>' +
+            '</div>' +
+            (u.komentar ? '<div class="testimoni-comment">&ldquo;' + escapeHtml(u.komentar) + '&rdquo;</div>' : '') +
+          '</div>';
+      }).join('');
+    }
+    function loadTestimoniList(){
+      var wrap = document.getElementById('testimoniListWrap');
+      if(!reviewSupabaseClient){
+        if(wrap) wrap.innerHTML = '<div class="testimoni-empty">Testimoni belum bisa dimuat. Periksa koneksi internet Anda.</div>';
+        return;
+      }
+      reviewSupabaseClient
+        .from(ULASAN_TABLE)
+        .select('*')
+        .eq('dipublikasikan', true)
+        .order('created_at', { ascending:false })
+        .then(function(res){
+          if(res && res.error){
+            console.error('Gagal memuat testimoni', res.error);
+            if(wrap) wrap.innerHTML = '<div class="testimoni-empty">Testimoni belum bisa dimuat saat ini.</div>';
+            return;
+          }
+          renderTestimoniList(res.data || []);
+        })
+        .catch(function(err){
+          console.error('Gagal memuat testimoni', err);
+          if(wrap) wrap.innerHTML = '<div class="testimoni-empty">Testimoni belum bisa dimuat saat ini.</div>';
+        });
+    }
+    loadTestimoniList();
+
+    var selectedReviewRating = 0;
+    var REVIEW_RATING_LABELS = {1:'Kurang Puas', 2:'Cukup', 3:'Baik', 4:'Sangat Baik', 5:'Istimewa!'};
+
+    document.querySelectorAll('#reviewStars .star-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        selectedReviewRating = Number(btn.dataset.star);
+        updateReviewStarsUI();
+      });
+    });
+
+    function updateReviewStarsUI(){
+      document.querySelectorAll('#reviewStars .star-btn').forEach(function(btn){
+        btn.classList.toggle('on', Number(btn.dataset.star) <= selectedReviewRating);
+      });
+      var labelEl = document.getElementById('reviewStarsLabel');
+      if(labelEl){
+        labelEl.textContent = selectedReviewRating
+          ? (selectedReviewRating + ' Bintang — ' + REVIEW_RATING_LABELS[selectedReviewRating])
+          : 'Ketuk bintang untuk memberi nilai';
+      }
+    }
+
+    function handleSubmitReview(){
+      var nameEl = document.getElementById('reviewName');
+      var commentEl = document.getElementById('reviewComment');
+      var status = document.getElementById('reviewStatus');
+      var btn = document.getElementById('reviewSubmitBtn');
+
+      var nama = nameEl.value.trim();
+      var komentar = commentEl.value.trim();
+
+      if(!nama){
+        status.textContent = 'Nama wajib diisi terlebih dahulu.';
+        status.className = 'form-note status-error';
+        nameEl.focus();
+        return;
+      }
+      if(!selectedReviewRating){
+        status.textContent = 'Silakan pilih penilaian bintang terlebih dahulu.';
+        status.className = 'form-note status-error';
+        return;
+      }
+      if(!komentar){
+        status.textContent = 'Saran, kesan & pesan wajib diisi terlebih dahulu.';
+        status.className = 'form-note status-error';
+        commentEl.focus();
+        return;
+      }
+      if(!reviewSupabaseClient){
+        status.textContent = 'Gagal terhubung ke server. Periksa koneksi internet Anda lalu muat ulang halaman.';
+        status.className = 'form-note status-error';
+        return;
+      }
+
+      btn.disabled = true;
+      var originalHTML = btn.innerHTML;
+      btn.innerHTML = '<span>Mengirim...</span>';
+      status.textContent = '';
+      status.className = 'form-note';
+
+      reviewSupabaseClient
+        .from(ULASAN_TABLE)
+        .insert({ nama_klien: nama, rating: selectedReviewRating, komentar: komentar, asal_form: 'prewedding' })
+        .then(function(res){
+          btn.disabled = false;
+          btn.innerHTML = originalHTML;
+          if(res && res.error){
+            console.error('Gagal mengirim ulasan', res.error);
+            status.textContent = 'Gagal mengirim ulasan. Silakan coba lagi beberapa saat lagi.';
+            status.className = 'form-note status-error';
+            return;
+          }
+          document.getElementById('reviewFormWrap').style.display = 'none';
+          document.getElementById('reviewSuccessWrap').style.display = 'block';
+        })
+        .catch(function(err){
+          btn.disabled = false;
+          btn.innerHTML = originalHTML;
+          console.error('Gagal mengirim ulasan', err);
+          status.textContent = 'Gagal mengirim ulasan. Periksa koneksi internet Anda lalu coba lagi.';
+          status.className = 'form-note status-error';
+        });
+    }
+
+    function resetReviewForm(){
+      document.getElementById('reviewName').value = '';
+      document.getElementById('reviewComment').value = '';
+      selectedReviewRating = 0;
+      updateReviewStarsUI();
+      var status = document.getElementById('reviewStatus');
+      status.textContent = '';
+      status.className = 'form-note';
+      document.getElementById('reviewFormWrap').style.display = 'block';
+      document.getElementById('reviewSuccessWrap').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
